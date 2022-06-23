@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Feedback</title>
+    <title>Feedbacks</title>
     <link rel="stylesheet" href="/Planner/assets2/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="/Planner/assets2/fonts/fontawesome-all.min.css">
@@ -19,13 +19,13 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link active" href="/Planner/pages/adminPage/adminDashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/adminDashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/contracts.html"><i class="fas fa-calendar"></i><span>Contracts</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-comments"></i><span>Feedback</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href=""><i class="fas fa-comments"></i><span>Feedbacks</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/vendors.html"><i class="fas fa-users"></i><span>Vendors</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/events.html"><i class="fas fa-clipboard-list"></i><span>Events</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/customers.html"><i class="fas fa-users"></i><span>Customers</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-sign-out-alt"></i><span>Log out</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt"></i><span>Log out</span></a></li>
 
    
                 </ul>
@@ -62,7 +62,7 @@
                     </div>
                 </nav>
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Feedback Table</h3>
+                    <h3 class="text-dark mb-4">Feedbacks Table</h3>
                     <div class="card shadow">
                         
                         <div class="card-body">
@@ -79,7 +79,7 @@
                                             <th>Handle</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="feedbacks">
+                                    <tbody id="tfeddbacks">
                                         <!-- <tr>
                                             <td></td>
                                             <td></td>
@@ -104,22 +104,95 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </body>
 <script>
+    $('#tfeddbacks').click(function (e) {
+        var button = event.target;
+        let buttonName = button.id;    
+        let idfeedback = buttonName.split("delete");   
+        let id_feedback = parseInt(idfeedback[0])
+        $.ajax({
+                  url: "http://127.0.0.1:8086/feedbacks/feedback/"+id_feedback+"/delete", 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                      location.reload();
+                  }
+                })
+    });
+</script>
+<script>
     $(document).ready(function () {
                 $.ajax({
-                  url: "http://127.0.0.1:8000/feedbacks/all", 
+                  url: "http://127.0.0.1:8086/feedbacks/all", 
                   type: "GET",          
                   cache: true, 
                   success: function(response){
                       $.each(response, function (key, value) { 
-                          $('#feedbacks').append("<tr>\
+                          $('#tfeddbacks').append("<tr>\
                                       <td>"+value.email+"</td>\
                                       <td>"+value.ctime+"</td>\
                                       <td>"+value.description+"</td>\
-                                      <td><button type='button' class='btn btn-secondary' id='"+value.user+"delete'>Delete Feedback</button></td>\
+                                      <td><button type='button' class='btn btn-secondary' id='"+value.id+"delete'>Delete Feedback</button></td>\
                                       </tr>");
                       })
                   }
                 })
               });
+</script>
+<script>
+    function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+    return null;
+    }
+</script>
+<script>
+    window.onload = (event) => {
+        $.ajax({
+
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/api/login',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                "username": getCookie("username_user"),
+                "password": getCookie("password_user")
+            },
+            success: function (data) {
+                 if(data.is_customer == true){
+                    window.location.replace("http://127.0.0.1:5500/Planner/pages/customerPage/customerDashboard.html");
+                     console.log(data.is_customer)
+                 }else if(data.is_vendor == true){
+                    window.location.replace("http://127.0.0.1:5500/Planner/pages/vendorPage/vendorDashboard.html");
+                 }else if(data.is_manager == true  ){
+                 }
+            },
+            error: function (data) {
+                window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+            }
+        })
+};
+</script>
+<script>
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+</script>
+<script>
+    function logoutfunction(){
+    setCookie("username_user","",1);
+    setCookie("password_user","",1);
+    window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+    }
 </script>
 </html>
