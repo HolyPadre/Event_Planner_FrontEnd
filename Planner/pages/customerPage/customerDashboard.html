@@ -28,7 +28,6 @@
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link px-0 px-lg-3 rounded" href="">Home</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">Vendors</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">My Events</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">Payments</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">Guests</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt">Log Out</i></a></li>
 
@@ -173,11 +172,31 @@
 </script>
 <script>
   function MakeEvent(){
-      sel = document.getElementById("typetext")
+    sel = document.getElementById("typetext")
       sel2 = document.getElementById("locationcity")
       var eventname = document.getElementById("inputName4").value;
       var datetext = document.getElementById("inputDate").value;
+      $.ajax({
 
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/event/create',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+              "name": eventname,
+              "type": sel.options[sel.selectedIndex].text,
+              "location": sel2.options[sel2.selectedIndex].text,
+              "Date": datetext,
+              "user": getCookie("id_user")
+
+            },
+            success: function (data) {
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+            })
       window.location.href = "http://127.0.0.1:5500/Planner/pages/customerPage/venues.html?eventname="+eventname+"&datetext="+datetext+"&type="+sel.value+"&location="+sel2.options[sel2.selectedIndex].text;
   };
 </script>

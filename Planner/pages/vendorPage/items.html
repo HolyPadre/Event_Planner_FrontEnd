@@ -32,7 +32,7 @@
             </div>
         </nav>
         <div class="d-flex flex-column" id="content-wrapper">
-            <div id="content">
+            <div id="content"> <!--    Add Items-->
                 <section id="nav-section">
                     <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                         <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button><h7 id="admin-name">Vendor Name</h7>
@@ -72,12 +72,14 @@
                                 <div class="card-body">
                                   <h4 class="card-title">Item Name</h4>
                                   <h5 class="card-about">About</h5>
-                                  <a href="" class="btn btn" style="background-color: #2C3E50; color: aliceblue;" data-bs-toggle="modal" data-bs-target="#exampleModal">More Details</a>
+                                  <a href="" class="btn btn" style="background-color: #2C3E50; color: aliceblue;" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="showId()">More Details</a>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
+                
                 
                 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -117,6 +119,7 @@
                               <span class="visually-hidden">Next</span>
                             </button>
                           </div>
+                          
                     </div>
                 
                     <div class="row p-5">
@@ -209,38 +212,6 @@
   }
 </script>
 <script>
-  window.onload = (event) => {
-      $.ajax({
-
-          type: 'POST',
-          url: 'http://127.0.0.1:8086/api/login',
-          crossDomain: true,
-          dataType: 'json',
-          data: {
-              "username": getCookie("username_user"),
-              "password": getCookie("password_user")
-          },
-          success: function (data) {
-               if(data.is_customer == true){
-                 window.location.replace("../../index.html");
-                   console.log(data.is_customer)
-               }else if(data.is_vendor == true){
-                document.getElementById("admin-name").value = data.name;
-                console.log(data.name);
-               }else if(data.is_customer == false && data.is_vendor == false  ){
-                   window.location.replace("../adminPage/adminDashboard.html");
-               }
-          },
-          error: function (data) {
-              console.log(data);
-          }
-      })
-
-
-
-};
-</script>
-<script>
     window.onload = (event) => {
         $.ajax({
   
@@ -257,6 +228,158 @@
                     window.location.replace("http://127.0.0.1:5500/Planner/pages/customerPage/customerDashboard.html");
                      
                  }else if(data.is_vendor == true){
+                    $("#admin-name").html("<b id>User-Name: "+getCookie("username_user")+"</b>");
+                    console.id
+                    var url = "localhost:8000/item/vendorid?vendor_id="+data.user_id;
+                    $.ajax({
+                     url: url, 
+                    type: "GET",          
+                    cache: true, 
+                    success: function(response){
+                        var counter  = 1;
+                      $.each(response, function (key, value) { 
+
+
+
+                        
+
+
+
+
+
+
+                      })
+                  }
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                  }else if(data.is_customer == false && data.is_vendor == false  ){
                   window.location.replace("http://127.0.0.1:5500/Planner/pages/adminPage/adminDashboard.html");
                  }
@@ -285,4 +408,14 @@
     window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
     }
   </script>
+
+
+<script>
+    function showId(){
+
+        
+
+        
+    }
+</script>
 </html>
