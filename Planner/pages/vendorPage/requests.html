@@ -19,9 +19,9 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link active" href="/Planner/pages/vendorPage/vendorDashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/vendorDashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/items.html"><i class="fas fa-sitemap"></i><span>Items</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-list"></i><span>Reservation Requests</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href=""><i class="fas fa-list"></i><span>Reservation Requests</span></a></li>
                     <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-clipboard-list"></i><span>Events</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt"></i><span>Log out</span></a></li>
 
@@ -127,15 +127,15 @@
             },
             success: function (data) {
                  if(data.is_customer == true){
-                    window.location.replace("http://127.0.0.1:5500/Planner/pages/customerPage/customerDashboard.html");
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
                      
                  }else if(data.is_vendor == true){
                  }else if(data.is_customer == false && data.is_vendor == false  ){
-                  window.location.replace("http://127.0.0.1:5500/Planner/pages/adminPage/adminDashboard.html");
+                  window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
                  }
             },
             error: function (data) {
-              window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+              window.location.replace("/Planner/pages/loginRegisterPages/login.html");
             }
         })
   };
@@ -155,7 +155,7 @@
     function logoutfunction(){
     setCookie("username_user","",1);
     setCookie("password_user","",1);
-    window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+    window.location.replace("/Planner/pages/loginRegisterPages/login.html");
     }
   </script>
 </html>

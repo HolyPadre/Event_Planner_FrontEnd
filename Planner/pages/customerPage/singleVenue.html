@@ -276,8 +276,8 @@
                 <div class="detail-section">
                     <h2 style="font-weight: 300; color:#666">Recomanded Items</h2>
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                          <div class="carousel-item active">
+                        <div class="carousel-inner" id="recommendetcards">
+                          <!-- <div class="carousel-item active">
                             <div class="cards-wrapper">
                                 <div class="card d-none d-md-block">
                                     <a href="/Event_Planner_FrontEnd/Planner/pages/customerPage/singleVenue.html" style="text-decoration: none;">
@@ -292,7 +292,8 @@
                                     </a>
                                   </div>                
                           </div>
-                          </div>
+                          </div> -->
+                          
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -368,7 +369,7 @@
     function logoutfunction(){
     setCookie("username_user","",1);
     setCookie("password_user","",1);
-    window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+    window.location.replace("/Planner/pages/loginRegisterPages/login.html");
     }
 </script>
 <script>
@@ -387,15 +388,79 @@
                  if(data.is_customer == true){
                      console.log(data.is_customer)
                  }else if(data.is_vendor == true){
-                  window.location.replace("http://127.0.0.1:5500/Planner/pages/vendorPage/vendorDashboard.html");
+                  window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html");
                  }else if(data.is_customer == false && data.is_vendor == false  ){
-                  window.location.replace("http://127.0.0.1:5500/Planner/pages/adminPage/adminDashboard.html");
+                  window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
                  }
             },
             error: function (data) {
-                window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+                window.location.replace("/Planner/pages/loginRegisterPages/login.html");
             }
         })
+        console.log(getCookie("name_item"))
+        $.ajax({
+                  url: "http://localhost:8000/item/recommended?itemstr="+getCookie("name_item"),
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                    var counter = 0;
+                    var cardid = 0
+                      $.each(response, function (key, value) { 
+                        images = value.images[0].item_image.split(":5500");
+                        imagesurl = "http://127.0.0.1:8000"+images[0];
+                        str = value.about;
+                        str = value.about;
+                        if(str.length > 200) str = str.substring(0,200) + "...."; 
+                        if (counter == 0)
+                        {       
+                            cardid++;
+                            $("#recommendetcards").append("<div class='carousel-item active' ><div class='cards-wrapper' id='"+cardid+"cardid'></div></div>")
+                            $("#"+cardid+"cardid").append("<div class='card'>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                        <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
+                                                        <div class='card-body'>\
+                                                        <h5 class='card-title'>"+value.name+"</h5>\
+                                                        <p class='card-text'>"+str+"</p>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
+                                                        </div>\
+                                                        </a>\
+                                                        </div>");
+
+                        }
+                        else if(counter%3 == 0)
+                        {
+                        cardid++;
+                        $("#recommendetcards").append("<div class='carousel-item' ><div class='cards-wrapper' id='"+cardid+"cardid'></div></div>")
+                        $("#"+cardid+"cardid").append("<div class='card'>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                        <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
+                                                        <div class='card-body'>\
+                                                        <h5 class='card-title'>"+value.name+"</h5>\
+                                                        <p class='card-text'>"+str+"</p>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
+                                                        </div>\
+                                                        </a>\
+                                                        </div>");
+                        }else
+                        {
+                            $("#"+cardid+"cardid").append("<div class='card'>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                        <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
+                                                        <div class='card-body'>\
+                                                        <h5 class='card-title'>"+value.name+"</h5>\
+                                                        <p class='card-text'>"+str+"</p>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
+                                                        </div>\
+                                                        </a>\
+                                                        </div>");
+                        }
+                        counter++;
+                      })
+                      
+                  }
+                })
+
+
   };
   </script>
 <script type="text/javascript">
@@ -432,8 +497,8 @@
                             
                             $("#venueName").html("<b>"+value+"</b>");
                             $("#aboutname").html("<b>About "+value+"</b>");
+                            setCookie("name_item",value,5);
                             
-
                         }
 
                         else if(counter == 3)
@@ -465,7 +530,7 @@
                         }
                         else if(counter == 8)
                         {   
-                            $("#priceday").html("<b>"+value+"</b>");
+                            $("#priceday").html("$<b>"+value+"</b>");
                         }
                         else if(counter == 10)
                         {
@@ -519,22 +584,5 @@
                 })
               });
   </script>
-<script>
-    function setCookie(name,value,days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-        }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-    }
-  </script>
-  <script>
-    function logoutfunction(){
-    setCookie("username_user","",1);
-    setCookie("password_user","",1);
-    window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
-    }
-  </script>
+
 </html>

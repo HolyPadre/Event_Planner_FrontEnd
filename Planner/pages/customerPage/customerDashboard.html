@@ -159,25 +159,45 @@
                if(data.is_customer == true){
                    console.log(data.is_customer)
                }else if(data.is_vendor == true){
-                window.location.replace("http://127.0.0.1:5500/Planner/pages/vendorPage/vendorDashboard.html");
+                window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html");
                }else if(data.is_customer == false && data.is_vendor == false  ){
-                window.location.replace("http://127.0.0.1:5500/Planner/pages/adminPage/adminDashboard.html");
+                window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
                }
           },
           error: function (data) {
-            window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+            window.location.replace("/Planner/pages/loginRegisterPages/login.html");
           }
       })
 };
 </script>
 <script>
   function MakeEvent(){
-      sel = document.getElementById("typetext")
+    sel = document.getElementById("typetext")
       sel2 = document.getElementById("locationcity")
       var eventname = document.getElementById("inputName4").value;
       var datetext = document.getElementById("inputDate").value;
+      $.ajax({
 
-      window.location.href = "http://127.0.0.1:5500/Planner/pages/customerPage/venues.html?eventname="+eventname+"&datetext="+datetext+"&type="+sel.value+"&location="+sel2.options[sel2.selectedIndex].text;
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/event/create',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+              "name": eventname,
+              "type": sel.options[sel.selectedIndex].text,
+              "location": sel2.options[sel2.selectedIndex].text,
+              "Date": datetext,
+              "user": getCookie("id_user")
+
+            },
+            success: function (data) {
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+            })
+      window.location.href = "/Planner/pages/customerPage/venues.html?eventname="+eventname+"&datetext="+datetext+"&type="+sel.value+"&location="+sel2.options[sel2.selectedIndex].text;
   };
 </script>
 <script>
@@ -195,7 +215,7 @@
   function logoutfunction(){
   setCookie("username_user","",1);
   setCookie("password_user","",1);
-  window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+  window.location.replace("/Planner/pages/loginRegisterPages/login.html");
   }
 </script>
 </html>
