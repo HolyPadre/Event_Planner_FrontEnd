@@ -431,7 +431,7 @@
                         {
                         cardid++;
                         $("#recommendetcards").append("<div class='carousel-item' ><div class='cards-wrapper' id='"+cardid+"cardid'></div></div>")
-                        $("#"+cardid+"cardid").append("<div class='card'>\
+                        $("#"+cardid+"cardid").append("<div class='card' >\
                                                         <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
                                                         <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
                                                         <div class='card-body'>\
@@ -532,22 +532,14 @@
                         {   
                             $("#priceday").html("$<b>"+value+"</b>");
                         }
-                        else if(counter == 10)
-                        {
-                            
-                        }
                         else if(counter == 11)
-                        {
-
-                        }
-                        else if(counter == 12)
                         {
                             for( i in value){
                                 $("#venuelist").append("<li>"+value[i].type_name+"   </li>");
                             }
 
                         }
-                        else if(counter == 13)
+                        else if(counter == 12)
                         {
                             for( i in value){
                                 if(i == 0)
@@ -567,13 +559,13 @@
                                 }
                             }
                         }
-                        else if(counter == 14)
+                        else if(counter == 13)
                         {
                             for( i in value){
                                 $("#amenitieslist").append("<li>"+value[i].amenities_name+"</li>");
                             }
                         }
-                        else if(counter == 16)
+                        else if(counter == 15)
                         {
                             $("#informationvenue").append("<li>Capacity: "+value+" people</li>");
 
