@@ -67,7 +67,7 @@
                  if(data.is_customer == true){
                     setCookie("username_user",document.getElementById("username").value,5);
                     setCookie("password_user",document.getElementById("exampleInputPassword").value,5);
-                    window.location.replace("http://127.0.0.1:5500/Planner/pages/customerPage/customerDashboard.html");
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
                      console.log(data.is_customer)
                  }else if(data.is_vendor == true){
                     setCookie("username_user",document.getElementById("username").value,5);
@@ -124,7 +124,7 @@
             },
             success: function (data) {
                  if(data.is_customer == true){
-                   window.location.replace("http://127.0.0.1:5500/Planner/pages/customerPage/customerDashboard.html");
+                   window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
                      console.log(data.is_customer)
                  }else if(data.is_vendor == true){
                      window.location.replace("../vendorPage/vendorDashboard.html");

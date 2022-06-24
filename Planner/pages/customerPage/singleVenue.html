@@ -369,7 +369,7 @@
     function logoutfunction(){
     setCookie("username_user","",1);
     setCookie("password_user","",1);
-    window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+    window.location.replace("/Planner/pages/loginRegisterPages/login.html");
     }
 </script>
 <script>
@@ -388,13 +388,13 @@
                  if(data.is_customer == true){
                      console.log(data.is_customer)
                  }else if(data.is_vendor == true){
-                  window.location.replace("http://127.0.0.1:5500/Planner/pages/vendorPage/vendorDashboard.html");
+                  window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html");
                  }else if(data.is_customer == false && data.is_vendor == false  ){
-                  window.location.replace("http://127.0.0.1:5500/Planner/pages/adminPage/adminDashboard.html");
+                  window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
                  }
             },
             error: function (data) {
-                window.location.replace("http://127.0.0.1:5500/Planner/pages/loginRegisterPages/login.html");
+                window.location.replace("/Planner/pages/loginRegisterPages/login.html");
             }
         })
         console.log(getCookie("name_item"))
